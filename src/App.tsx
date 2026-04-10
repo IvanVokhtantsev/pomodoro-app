@@ -55,7 +55,7 @@ const DEFAULT_STATE: TimerState = {
 
 const STORAGE_KEY = "pomodoro_state_v2";
 const SYNC_CHANNEL = "pomodoro_sync_v2";
-const DOWNLOAD_URL = "https://github.com/IvanVokhtantsev/pomodoro-app/releases";
+const DOWNLOAD_URL = "https://github.com/IvanVokhtantsev/pomodoro-app/releases/latest";
 const REPOSITORY_URL = "https://github.com/IvanVokhtantsev/pomodoro-app";
 const WINDOW_ID =
   typeof crypto !== "undefined" && "randomUUID" in crypto
