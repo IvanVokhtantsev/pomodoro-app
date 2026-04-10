@@ -1,73 +1,56 @@
-# React + TypeScript + Vite
+# Pomodoro App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Desktop Pomodoro timer built with React, TypeScript, Vite, and Electron.
 
-Currently, two official plugins are available:
+The app has a regular timer view and a compact always-on-top mode for keeping the timer visible while working in other apps.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Focus, short break, and long break timer modes.
+- Compact always-on-top window mode with a 16:9 layout.
+- Start, pause, reset, and skip controls.
+- Synthesized completion sound when a timer finishes.
+- Completed focus-session counter for the current day.
+- Daily stats reset after 05:00 local time.
+- Local state persistence between launches.
+- Desktop builds for macOS, Windows, and Linux through Electron Builder.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Development
 
-## Expanding the ESLint configuration
+Install dependencies:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the app in development mode:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+This starts the Vite renderer and the Electron desktop shell together.
+
+## Scripts
+
+- `npm run dev` starts the local development app.
+- `npm run build` type-checks and builds the renderer and Electron files.
+- `npm run lint` runs ESLint.
+- `npm run start` starts Electron from the built Electron entrypoint.
+- `npm run dist` builds the app and packages desktop installers.
+
+## Build Output
+
+Generated folders are ignored by git:
+
+- `dist` for the Vite renderer build.
+- `electron-dist` for compiled Electron files.
+- `node_modules` for installed dependencies.
+
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- Electron
+- Electron Builder
