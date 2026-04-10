@@ -4,6 +4,12 @@ Desktop Pomodoro timer built with React, TypeScript, Vite, and Electron.
 
 The app has a regular timer view and a compact always-on-top mode for keeping the timer visible while working in other apps.
 
+## Web Version
+
+The browser version is a landing page with an online timer demo. It is deployed to GitHub Pages from the `main` branch.
+
+The true always-on-top mode is available in the desktop app because browsers do not reliably support keeping a page above every other app window.
+
 ## Features
 
 - Focus, short break, and long break timer modes.
@@ -38,6 +44,12 @@ This starts the Vite renderer and the Electron desktop shell together.
 - `npm run lint` runs ESLint.
 - `npm run start` starts Electron from the built Electron entrypoint.
 - `npm run dist` builds the app and packages desktop installers.
+
+## Deployment
+
+GitHub Pages is configured with `.github/workflows/deploy.yml`. The workflow builds `dist` with the `/pomodoro-app/` base path and publishes it as the web app.
+
+Desktop downloads should be attached to GitHub Releases after running `npm run dist`.
 
 ## Build Output
 

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import "./App.css";
 
 type Mode = "focus" | "shortBreak" | "longBreak";
@@ -16,12 +17,16 @@ type TimerState = {
 type TimerPanelProps = {
   mode: Mode;
   title: string;
+  eyebrow?: string;
+  heading?: string;
+  subtitle?: string;
   secondsLeft: number;
   isRunning: boolean;
   completedPomodoros: number;
   isCompactMode: boolean;
   isDesktopApp: boolean;
   miniModeEnabled: boolean;
+  showMiniModeControl?: boolean;
   onSwitchMode: (mode: Mode) => void;
   onStart: () => void;
   onPause: () => void;
@@ -50,6 +55,8 @@ const DEFAULT_STATE: TimerState = {
 
 const STORAGE_KEY = "pomodoro_state_v2";
 const SYNC_CHANNEL = "pomodoro_sync_v2";
+const DOWNLOAD_URL = "https://github.com/IvanVokhtantsev/pomodoro-app/releases";
+const REPOSITORY_URL = "https://github.com/IvanVokhtantsev/pomodoro-app";
 const WINDOW_ID =
   typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
@@ -274,12 +281,16 @@ async function playCompletionTone() {
 function TimerPanel({
   mode,
   title,
+  eyebrow = "Desktop timer",
+  heading = "Pomodoro Timer",
+  subtitle = "Переключай текущее окно в компактный always-on-top режим, когда нужен таймер без шума.",
   secondsLeft,
   isRunning,
   completedPomodoros,
   isCompactMode,
   isDesktopApp,
   miniModeEnabled,
+  showMiniModeControl = true,
   onSwitchMode,
   onStart,
   onPause,
@@ -372,15 +383,13 @@ function TimerPanel({
     <section className="panel">
       <div className="panel-header">
         <div className="panel-title-block">
-          <p className="eyebrow">Desktop timer</p>
-          <h1>Pomodoro Timer</h1>
-          <p className="subtitle">
-            Переключай текущее окно в компактный always-on-top режим, когда нужен таймер без шума.
-          </p>
+          <p className="eyebrow">{eyebrow}</p>
+          <h1>{heading}</h1>
+          <p className="subtitle">{subtitle}</p>
         </div>
 
         <div className="panel-actions">
-          {onToggleMiniMode ? (
+          {showMiniModeControl && onToggleMiniMode ? (
             <button
               className={`mode-toggle ${miniModeEnabled ? "mode-toggle--active" : ""}`}
               onClick={onToggleMiniMode}
@@ -450,6 +459,100 @@ function TimerPanel({
         <strong className="stats-value">{completedPomodoros}</strong>
       </div>
     </section>
+  );
+}
+
+function MarketingPage({ children }: { children: ReactNode }) {
+  return (
+    <div className="landing">
+      <section className="landing-hero" aria-labelledby="landing-title">
+        <div className="landing-copy">
+          <p className="landing-kicker">Pomodoro App</p>
+          <h1 id="landing-title">Фокус-таймер, который не теряется среди окон</h1>
+          <p className="landing-lead">
+            Запускай Pomodoro прямо в браузере или скачай desktop-приложение, чтобы компактный
+            таймер оставался поверх экрана во время работы.
+          </p>
+
+          <div className="landing-actions">
+            <a className="landing-button landing-button--primary" href={DOWNLOAD_URL}>
+              Скачать приложение
+            </a>
+            <a className="landing-button landing-button--secondary" href="#try-online">
+              Попробовать онлайн
+            </a>
+          </div>
+
+          <div className="landing-note">
+            <strong>Важно:</strong> настоящий always-on-top работает в desktop-версии. В браузере
+            таймер можно попробовать онлайн, но поверх всех приложений он держаться не сможет.
+          </div>
+        </div>
+
+        <div className="landing-showcase" aria-label="Превью компактного режима">
+          <div className="showcase-window showcase-window--back">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="showcase-window">
+            <div className="showcase-titlebar">
+              <span />
+              <span />
+              <span />
+              <strong>24:47 • Compact</strong>
+            </div>
+            <div className="showcase-card">
+              <div>
+                <p>Pomodoro</p>
+                <h2>Фокус</h2>
+              </div>
+              <strong>24:47</strong>
+              <div className="showcase-controls">
+                <span>Старт</span>
+                <span>Сброс</span>
+                <span>Пропуск</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="landing-feature-grid" aria-label="Возможности приложения">
+        <article>
+          <span>01</span>
+          <h2>Поверх экрана</h2>
+          <p>Desktop-режим превращает таймер в компактное always-on-top окно.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>Звук окончания</h2>
+          <p>Таймер играет мягкий синтезированный сигнал после завершения цикла.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>Счётчик дня</h2>
+          <p>Фокус-сессии считаются за текущий день и сбрасываются после 05:00.</p>
+        </article>
+      </section>
+
+      <section className="landing-demo" id="try-online" aria-labelledby="demo-title">
+        <div className="landing-demo-copy">
+          <p className="landing-kicker">Online demo</p>
+          <h2 id="demo-title">Попробовать онлайн</h2>
+          <p>
+            Это тот же таймер: фокус, короткий перерыв, длинный перерыв, звук и сохранение
+            состояния в браузере. Для настоящего окна поверх всех приложений скачай desktop app.
+          </p>
+        </div>
+        {children}
+      </section>
+
+      <footer className="landing-footer">
+        <a href={REPOSITORY_URL}>GitHub repository</a>
+        <span>React + TypeScript + Vite + Electron</span>
+      </footer>
+    </div>
   );
 }
 
@@ -597,9 +700,9 @@ export default function App() {
   }, [timerState.isRunning, timerState.endTime]);
 
   useEffect(() => {
-    const viewLabel = miniModeEnabled ? "Compact" : "Main";
+    const viewLabel = isDesktopApp ? (miniModeEnabled ? "Compact" : "Main") : "Online";
     document.title = `${formatTime(timerState.secondsLeft)} • ${viewLabel}`;
-  }, [miniModeEnabled, timerState.secondsLeft]);
+  }, [isDesktopApp, miniModeEnabled, timerState.secondsLeft]);
 
   const title = useMemo(() => {
     if (timerState.mode === "focus") return "Фокус";
@@ -684,17 +787,24 @@ export default function App() {
     });
   };
 
-  return (
-    <main className={`container ${miniModeEnabled ? "container--mini" : ""}`}>
+  const timerPanel = (
       <TimerPanel
         mode={timerState.mode}
         title={title}
+        eyebrow={isDesktopApp ? "Desktop timer" : "Online demo"}
+        heading={isDesktopApp ? "Pomodoro Timer" : "Попробовать онлайн"}
+        subtitle={
+          isDesktopApp
+            ? "Переключай текущее окно в компактный always-on-top режим, когда нужен таймер без шума."
+            : "Браузерная версия таймера. Настоящий always-on-top доступен в desktop-приложении."
+        }
         secondsLeft={timerState.secondsLeft}
         isRunning={timerState.isRunning}
         completedPomodoros={timerState.completedPomodoros}
         isCompactMode={miniModeEnabled}
         isDesktopApp={isDesktopApp}
         miniModeEnabled={miniModeEnabled}
+        showMiniModeControl={isDesktopApp}
         onSwitchMode={switchMode}
         onStart={start}
         onPause={pause}
@@ -702,6 +812,19 @@ export default function App() {
         onSkip={skip}
         onToggleMiniMode={toggleMiniMode}
       />
+  );
+
+  if (!isDesktopApp) {
+    return (
+      <main className="container container--landing">
+        <MarketingPage>{timerPanel}</MarketingPage>
+      </main>
+    );
+  }
+
+  return (
+    <main className={`container ${miniModeEnabled ? "container--mini" : ""}`}>
+      {timerPanel}
     </main>
   );
 }
