@@ -24,7 +24,7 @@ Pomogochi = Pomodoro + Tamagotchi.
 
 Latest desktop builds are published in GitHub Releases:
 
-https://github.com/IvanVokhtantsev/pomodoro-app/releases/latest
+https://github.com/IvanVokhtantsev/pomogochi/releases/latest
 
 The website and browser demo are published with GitHub Pages.
 
@@ -63,7 +63,7 @@ This starts the Vite renderer and the Electron desktop shell together.
 
 ## Deployment
 
-GitHub Pages is configured with `.github/workflows/deploy.yml`. The workflow builds `dist` with the `/pomodoro-app/` base path and publishes the landing page plus browser demo.
+GitHub Pages is configured with `.github/workflows/deploy.yml`. The workflow builds `dist` with a repository-aware base path and publishes the landing page plus browser demo.
 
 Desktop release publishing is configured with `.github/workflows/release.yml`.
 

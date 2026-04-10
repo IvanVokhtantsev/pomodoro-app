@@ -78,8 +78,8 @@ const LANGUAGE_STORAGE_KEY = "pomogochi_language_v1";
 const LEGACY_STORAGE_KEY = "pomodoro_state_v2";
 const LEGACY_LANGUAGE_STORAGE_KEY = "pomodoro_language_v1";
 const SYNC_CHANNEL = "pomogochi_sync_v1";
-const DOWNLOAD_URL = "https://github.com/IvanVokhtantsev/pomodoro-app/releases/latest";
-const REPOSITORY_URL = "https://github.com/IvanVokhtantsev/pomodoro-app";
+const DOWNLOAD_URL = "https://github.com/IvanVokhtantsev/pomogochi/releases/latest";
+const REPOSITORY_URL = "https://github.com/IvanVokhtantsev/pomogochi";
 const WINDOW_ID =
   typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
