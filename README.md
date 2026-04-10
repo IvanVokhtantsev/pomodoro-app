@@ -15,7 +15,7 @@ The key feature is not the sound. It is the desktop behavior: a compact always-o
 - Russian and English UI with an in-app language switch.
 - Browser demo on GitHub Pages, with true always-on-top available only in the desktop app.
 
-## Скачать / Download
+## Download
 
 Latest desktop builds are published in GitHub Releases:
 
@@ -23,14 +23,14 @@ https://github.com/IvanVokhtantsev/pomodoro-app/releases/latest
 
 The website and browser demo are published with GitHub Pages.
 
-## Почему desktop app?
+## Why A Desktop App?
 
-Браузер не может надёжно держать вкладку поверх всех приложений. Desktop-версия может:
+Browsers cannot reliably keep a tab above every other application. The desktop version can:
 
-- держать компактный таймер поверх других окон;
-- запретить случайное сворачивание compact-режима;
-- развернуть окно поверх экрана, когда цикл завершён;
-- вернуть окно обратно в обычный или compact-режим после slide-to-start.
+- keep the compact timer above other windows;
+- prevent compact mode from being minimized accidentally;
+- expand the window above the screen when a timer cycle finishes;
+- return to the previous regular or compact window state after slide-to-start.
 
 ## Development
 
