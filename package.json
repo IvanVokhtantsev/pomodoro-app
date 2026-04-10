@@ -1,7 +1,7 @@
 {
   "name": "pomodoro-app",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "electron-dist/main.js",
   "type": "module",
   "scripts": {
@@ -39,6 +39,9 @@
   "build": {
     "appId": "com.ivanvohtancev.pomodoroapp",
     "productName": "Pomodoro App",
+    "directories": {
+      "output": "release"
+    },
     "files": [
       "dist/**/*",
       "electron-dist/**/*",
