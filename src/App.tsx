@@ -1097,21 +1097,30 @@ function MarketingPage({
               <span />
               <strong>24:47 • Compact</strong>
             </div>
-            <div className="showcase-card">
-              <div>
+            <div className="showcase-card showcase-card--compact">
+              <div className="showcase-compact-brand">
                 <p>Pomogochi</p>
-                <h2>{copy.landing.showcaseMode}</h2>
+                <h2>{copy.modes.shortBreak}</h2>
               </div>
-              <div className="showcase-pet" aria-hidden="true">
-                <span className="showcase-pet-eye" />
-                <span className="showcase-pet-eye" />
-                <span className="showcase-pet-mouth" />
-              </div>
-              <strong>05:00</strong>
-              <div className="showcase-controls">
-                <span>{copy.landing.showcaseStart}</span>
-                <span>{copy.landing.showcaseReset}</span>
-                <span>{copy.landing.showcaseSkip}</span>
+
+              <strong className="showcase-compact-time">05:00</strong>
+
+              <div className="showcase-compact-matrix" aria-hidden="true">
+                <span className="showcase-mini-pill">Ⅱ</span>
+                <span className="showcase-mini-pill showcase-mini-pill--text">
+                  {copy.timer.todayCompact} 8
+                </span>
+                <span className="showcase-mini-button showcase-mini-button--ghost">↗</span>
+
+                <span className="showcase-mini-button">F</span>
+                <span className="showcase-mini-button showcase-mini-button--active">S</span>
+                <span className="showcase-mini-button">L</span>
+
+                <span className="showcase-mini-button showcase-mini-button--primary">
+                  {copy.timer.compactStart}
+                </span>
+                <span className="showcase-mini-button">{copy.timer.compactReset}</span>
+                <span className="showcase-mini-button">{copy.timer.compactSkip}</span>
               </div>
             </div>
           </div>
