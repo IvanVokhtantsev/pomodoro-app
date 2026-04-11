@@ -700,24 +700,26 @@ function PomogochiBreakOverlay({
   copy: AppCopy;
   onSkip: () => void;
 }) {
+  const AGITATION_DECAY_MS = 6400;
+  const POINTER_ACTIVITY_DISTANCE = 18;
+  const POINTER_ACTIVITY_THROTTLE_MS = 120;
   const isLongBreak = mode === "longBreak";
   const [reactionCount, setReactionCount] = useState(0);
   const [activityTick, setActivityTick] = useState(() => Date.now());
-  const [lastActivityAt, setLastActivityAt] = useState(() => Date.now());
+  const [lastActivityAt, setLastActivityAt] = useState<number | null>(null);
+  const pointerActivityRef = useRef<{ x: number; y: number; at: number } | null>(null);
   const reactionBubbles = reactionCount > 0 ? Array.from({ length: 7 }) : [];
-  const breakDuration = DURATIONS[mode] || DURATIONS.shortBreak;
-  const timeAgitation = Math.min(1, Math.max(0, secondsLeft / breakDuration));
-  const interactionAgitation = Math.min(
-    1,
-    Math.max(0, 1 - (activityTick - lastActivityAt) / 3600)
-  );
-  const agitation = Math.max(timeAgitation, interactionAgitation * 0.84);
+  const agitation =
+    lastActivityAt === null
+      ? 0
+      : Math.min(1, Math.max(0, 1 - (activityTick - lastActivityAt) / AGITATION_DECAY_MS));
   const calmProgress = 1 - agitation;
   const petStyle = {
     "--agitation": agitation.toFixed(2),
-    "--pomogochi-hue": `${Math.round(356 + calmProgress * 160)}`,
-    "--pomogochi-shake": `${(agitation * 7).toFixed(2)}px`,
-    "--pomogochi-shake-duration": `${Math.round(520 - agitation * 360)}ms`,
+    "--pomogochi-hue": `${Math.round(10 + calmProgress * 128)}`,
+    "--pomogochi-shake": `${(agitation * 10).toFixed(2)}px`,
+    "--pomogochi-shake-duration": `${Math.round(560 - agitation * 360)}ms`,
+    "--pomogochi-blur": `${(agitation * 0.8).toFixed(2)}px`,
   } as CSSProperties;
 
   useEffect(() => {
@@ -736,13 +738,33 @@ function PomogochiBreakOverlay({
     setActivityTick(timestamp);
   };
 
+  const registerCursorActivity = (clientX: number, clientY: number) => {
+    const timestamp = Date.now();
+    const lastPointerActivity = pointerActivityRef.current;
+
+    if (lastPointerActivity) {
+      const distance = Math.hypot(clientX - lastPointerActivity.x, clientY - lastPointerActivity.y);
+      const elapsed = timestamp - lastPointerActivity.at;
+
+      if (distance < POINTER_ACTIVITY_DISTANCE && elapsed < POINTER_ACTIVITY_THROTTLE_MS) {
+        return;
+      }
+    }
+
+    pointerActivityRef.current = { x: clientX, y: clientY, at: timestamp };
+    setLastActivityAt(timestamp);
+    setActivityTick(timestamp);
+  };
+
   return (
     <div
       className="pomogochi-overlay"
       aria-label={copy.pomogochi.aria}
       aria-modal="true"
       role="dialog"
-      onPointerMove={registerPetActivity}
+      onPointerMove={(event) => {
+        registerCursorActivity(event.clientX, event.clientY);
+      }}
     >
       <div className="pomogochi-card">
         <div className="pomogochi-copy">
@@ -765,7 +787,10 @@ function PomogochiBreakOverlay({
             setReactionCount((count) => count + 1);
           }}
         >
-          <div className="pomogochi-pet-shell" style={petStyle}>
+          <div
+            className={`pomogochi-pet-shell ${agitation > 0.06 ? "pomogochi-pet-shell--agitated" : ""}`}
+            style={petStyle}
+          >
             <div
               className={`pomogochi-pet ${isLongBreak ? "pomogochi-pet--long" : ""} ${
                 reactionCount % 2 === 1 ? "pomogochi-pet--surprised" : ""

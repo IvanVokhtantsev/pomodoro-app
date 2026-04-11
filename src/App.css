@@ -822,13 +822,19 @@ body.compact-viewport #root {
 }
 
 .pomogochi-pet-shell {
-  --agitation: 1;
-  --pomogochi-hue: 356;
-  --pomogochi-shake: 7px;
-  --pomogochi-shake-duration: 160ms;
+  --agitation: 0;
+  --pomogochi-hue: 138;
+  --pomogochi-shake: 0px;
+  --pomogochi-shake-duration: 560ms;
+  --pomogochi-blur: 0px;
+  --pomogochi-saturation: 1;
+  --pomogochi-face-shift: 0deg;
   position: relative;
   width: clamp(210px, 32vw, 380px);
   aspect-ratio: 1;
+}
+
+.pomogochi-pet-shell--agitated {
   animation: pomogochi-shake var(--pomogochi-shake-duration) linear infinite;
 }
 
@@ -852,15 +858,24 @@ body.compact-viewport #root {
     inset 0 18px 44px rgba(255, 255, 255, 0.24),
     inset 0 -24px 46px hsl(var(--pomogochi-hue) 86% 22% / 0.3);
   animation: pomogochi-breathe 2200ms ease-in-out infinite;
+  filter:
+    blur(var(--pomogochi-blur))
+    hue-rotate(var(--pomogochi-face-shift))
+    saturate(var(--pomogochi-saturation));
+  transition:
+    filter 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease;
 }
 
 .pomogochi-pet--long {
-  filter: saturate(1.06);
+  --pomogochi-saturation: 1.06;
 }
 
 .pomogochi-pet--surprised {
+  --pomogochi-saturation: 1.12;
+  --pomogochi-face-shift: 16deg;
   border-radius: 58% 42% 54% 46%;
-  filter: hue-rotate(16deg) saturate(1.12);
 }
 
 .pomogochi-ear {

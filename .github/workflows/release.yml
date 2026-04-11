@@ -42,11 +42,7 @@ jobs:
           name: release-${{ matrix.os }}
           path: |
             release/*.dmg
-            release/*.dmg.blockmap
-            release/*.zip
             release/*.exe
-            release/*.blockmap
-            release/*.yml
           if-no-files-found: error
 
   publish:
@@ -64,5 +60,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: Pomogochi ${{ github.ref_name }}
-          files: release-assets/**/*
+          files: |
+            release-assets/*.dmg
+            release-assets/*.exe
           fail_on_unmatched_files: true
